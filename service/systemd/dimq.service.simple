@@ -1,0 +1,17 @@
+[Unit]
+Description=dimq MQTT Broker
+Documentation=man:dimq.conf(5) man:dimq(8)
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/usr/sbin/dimq -c /etc/dimq/dimq.conf
+ExecReload=/bin/kill -HUP $MAINPID
+Restart=on-failure
+ExecStartPre=/bin/mkdir -m 740 -p /var/log/dimq
+ExecStartPre=/bin/chown dimq /var/log/dimq
+ExecStartPre=/bin/mkdir -m 740 -p /run/dimq
+ExecStartPre=/bin/chown dimq /run/dimq
+
+[Install]
+WantedBy=multi-user.target

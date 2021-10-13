@@ -1,0 +1,28 @@
+/usr/sbin/dimq {
+	#include <abstractions/base>
+	#include <abstractions/nameservice>
+
+	/usr/sbin/dimq r,
+	/etc/dimq/dimq.conf r,
+	/etc/dimq/ca_certificates/* r,
+	/etc/dimq/certs/* r,
+	/etc/dimq/conf.d/* r,
+	/var/lib/dimq/ r,
+	/var/lib/dimq/dimq.db rwk,
+	/var/lib/dimq/dimq.db.new rwk,
+	/var/run/dimq.pid rw,
+
+	network inet stream,
+	network inet6 stream,
+	network inet dgram,
+	network inet6 dgram,
+
+	# For drop privileges
+	capability setgid,
+	capability setuid,
+
+	# For tcp-wrappers
+	/lib{,32,64}/libwrap.so*  rm,
+	/etc/hosts.allow r,
+	/etc/hosts.deny r,
+}

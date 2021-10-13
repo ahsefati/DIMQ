@@ -1,0 +1,4 @@
+check process dimq with pidfile /run/dimq.pid
+	start = "/etc/init.d/dimq start"
+	stop = "/etc/init.d/dimq stop"
+
