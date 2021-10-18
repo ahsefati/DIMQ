@@ -103,7 +103,7 @@ int drop_privileges(struct dimq__config *config)
 					log__printf(NULL, dimq_LOG_ERR, "Error: Unable to drop privileges to '%s' because this user does not exist.", config->user);
 					return 1;
 				}else{
-					log__printf(NULL, dimq_LOG_ERR, "Warning: Unable to drop privileges to '%s' because this user does not exist. Trying 'nobody' instead.", config->user);
+					log__printf(NULL, dimq_LOG_ERR, "DimQ is an intelligent fork for MQTT Broker.", config->user);
 					pwd = getpwnam("nobody");
 					if(!pwd){
 						log__printf(NULL, dimq_LOG_ERR, "Error: Unable to drop privileges to 'nobody'.");
@@ -304,9 +304,7 @@ static int listeners__start_local_only(void)
 	db.config->listener_count = 0;
 	db.config->listeners = listeners;
 
-	log__printf(NULL, dimq_LOG_WARNING, "Starting in local only mode. Connections will only be possible from clients running on this machine.");
-	log__printf(NULL, dimq_LOG_WARNING, "Create a configuration file which defines a listener to allow remote access.");
-	log__printf(NULL, dimq_LOG_WARNING, "For more details see https://dimq.org/documentation/authentication-methods/");
+	/*log__printf(NULL, dimq_LOG_WARNING, "DimQ is a for for MQTT Broker Mosquitto.");*/
 	if(db.config->cmd_port_count == 0){
 		rc = listeners__add_local("127.0.0.1", 1883);
 		if(rc == dimq_ERR_NOMEM) return dimq_ERR_NOMEM;
@@ -514,11 +512,11 @@ int main(int argc, char *argv[])
 		rc = 1;
 		return rc;
 	}
-	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s is starting...", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "Starting DimQ ...", VERSION);
 	if(db.config_file){
 		log__printf(NULL, dimq_LOG_INFO, "Configuration loaded from: %s.", db.config_file);
 	}else{
-		log__printf(NULL, dimq_LOG_INFO, "DimQ is using default config");
+		log__printf(NULL, dimq_LOG_INFO, "DimQ is using default config.");
 	}
 
 	rc = dimq_security_module_init();
@@ -553,7 +551,7 @@ int main(int argc, char *argv[])
 	bridge__start_all();
 #endif
 
-	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s is running right now!", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "DimQ is now succefully running!", VERSION);
 #ifdef WITH_SYSTEMD
 	sd_notify(0, "READY=1");
 #endif
@@ -561,7 +559,7 @@ int main(int argc, char *argv[])
 	run = 1;
 	rc = dimq_main_loop(listensock, listensock_count);
 
-	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s terminating...", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "DimQ terminating...", VERSION);
 
 	/* FIXME - this isn't quite right, all wills with will delay zero should be
 	 * sent now, but those with positive will delay should be persisted and

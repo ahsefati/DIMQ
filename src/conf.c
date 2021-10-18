@@ -643,12 +643,12 @@ int config__read(struct dimq__config *config, bool reload)
 			for(i=0; i<config->listener_count; i++){
 				/* Default option if no security options set */
 				if(config->listeners[i].security_options.allow_anonymous == -1){
-					config->listeners[i].security_options.allow_anonymous = false;
+					config->listeners[i].security_options.allow_anonymous = true;
 				}
 			}
 		}else{
 			if(config->security_options.allow_anonymous == -1){
-				config->security_options.allow_anonymous = false;
+				config->security_options.allow_anonymous = true;
 			}
 		}
 	}
