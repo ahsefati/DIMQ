@@ -8,8 +8,8 @@
 !include "WinMessages.nsh"
 !define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 
-Name "Eclipse dimq"
-!define VERSION 2.0.12
+Name "dimq"
+!define VERSION 1.0.0
 OutFile "dimq-${VERSION}-install-windows-x86.exe"
 
 InstallDir "$PROGRAMFILES\dimq"

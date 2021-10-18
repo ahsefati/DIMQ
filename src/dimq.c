@@ -514,11 +514,11 @@ int main(int argc, char *argv[])
 		rc = 1;
 		return rc;
 	}
-	log__printf(NULL, dimq_LOG_INFO, "dimq version %s starting", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s is starting...", VERSION);
 	if(db.config_file){
-		log__printf(NULL, dimq_LOG_INFO, "Config loaded from %s.", db.config_file);
+		log__printf(NULL, dimq_LOG_INFO, "Configuration loaded from: %s.", db.config_file);
 	}else{
-		log__printf(NULL, dimq_LOG_INFO, "Using default config.");
+		log__printf(NULL, dimq_LOG_INFO, "DimQ is using default config");
 	}
 
 	rc = dimq_security_module_init();
@@ -553,7 +553,7 @@ int main(int argc, char *argv[])
 	bridge__start_all();
 #endif
 
-	log__printf(NULL, dimq_LOG_INFO, "dimq version %s running", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s is running right now!", VERSION);
 #ifdef WITH_SYSTEMD
 	sd_notify(0, "READY=1");
 #endif
@@ -561,7 +561,7 @@ int main(int argc, char *argv[])
 	run = 1;
 	rc = dimq_main_loop(listensock, listensock_count);
 
-	log__printf(NULL, dimq_LOG_INFO, "dimq version %s terminating", VERSION);
+	log__printf(NULL, dimq_LOG_INFO, "DimQ version %s terminating...", VERSION);
 
 	/* FIXME - this isn't quite right, all wills with will delay zero should be
 	 * sent now, but those with positive will delay should be persisted and

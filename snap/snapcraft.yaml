@@ -1,5 +1,5 @@
 name: dimq
-version: 2.0.12
+version: 1.0.0
 summary: Eclipse dimq MQTT broker
 description: This is a message broker that supports version 5.0, 3.1.1, and 3.1 of the MQTT
     protocol.

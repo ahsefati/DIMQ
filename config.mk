@@ -127,7 +127,7 @@ WITH_XTREPORT=no
 
 # Also bump lib/dimq.h, CMakeLists.txt,
 # installer/dimq.nsi, installer/dimq64.nsi
-VERSION=2.0.12
+VERSION=1.0.0
 
 # Client library SO version. Bump if incompatible API/ABI changes are made.
 SOVERSION=1
