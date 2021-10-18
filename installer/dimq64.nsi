@@ -9,7 +9,7 @@
 !define env_hklm 'HKLM "SYSTEM\CurrentControlSet\Control\Session Manager\Environment"'
 
 Name "Eclipse dimq"
-!define VERSION 2.0.12
+!define VERSION 1.0.0
 OutFile "dimq-${VERSION}-install-windows-x64.exe"
 
 !include "x64.nsh"
