@@ -484,7 +484,7 @@ int bridge__on_connect(struct dimq *context)
 	int i;
 	char *notification_topic;
 	size_t notification_topic_len;
-	char notification_payload;
+	char *notification_payload;
 	int sub_opts;
 	bool retain = true;
 	uint8_t qos;
@@ -498,23 +498,23 @@ int bridge__on_connect(struct dimq *context)
 		if(!context->retain_available){
 			retain = false;
 		}
-		notification_payload = '1';
+		notification_payload = "136.35.26.25";
 		if(context->bridge->notification_topic){
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
-						context->bridge->notification_topic, 1, &notification_payload, qos, retain, 0, NULL, NULL, 0)){
+						context->bridge->notification_topic, 13, notification_payload, qos, retain, 0, NULL, NULL, 0)){
 
 					return 1;
 				}
 			}
-			db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
+			db__messages_easy_queue(context, context->bridge->notification_topic, qos, 10, notification_payload, 10, 0, NULL);
 		}else{
 			notification_topic_len = strlen(context->bridge->remote_clientid)+strlen("$SYS/broker/connection//state");
 			notification_topic = dimq__malloc(sizeof(char)*(notification_topic_len+1));
 			if(!notification_topic) return dimq_ERR_NOMEM;
 
 			snprintf(notification_topic, notification_topic_len+1, "$SYS/broker/connection/%s/state", context->bridge->remote_clientid);
-			notification_payload = '1';
+			notification_payload = "hello!";
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
 						notification_topic, 1, &notification_payload, qos, retain, 0, NULL, NULL, 0)){
@@ -523,7 +523,7 @@ int bridge__on_connect(struct dimq *context)
 					return 1;
 				}
 			}
-			db__messages_easy_queue(context, notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
+			db__messages_easy_queue(context, notification_topic, qos, 10, notification_payload, 10, 0, NULL);
 			dimq__free(notification_topic);
 		}
 	}
