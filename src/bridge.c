@@ -498,11 +498,12 @@ int bridge__on_connect(struct dimq *context)
 		if(!context->retain_available){
 			retain = false;
 		}
-		notification_payload = "136.35.26.25";
+		notification_payload = "okkkkkkkkkkko";
+		notification_topic = "brokers/ips/me";
 		if(context->bridge->notification_topic){
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
-						context->bridge->notification_topic, 13, notification_payload, qos, retain, 0, NULL, NULL, 0)){
+						notification_topic, 13, notification_payload, qos, retain, 0, NULL, NULL, 0)){
 
 					return 1;
 				}
