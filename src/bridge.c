@@ -431,16 +431,17 @@ int bridge__connect(struct dimq *context)
 		strcpy(notif_topic,"brokers/");
 		strcat(notif_topic,notification_payload);
 		notification_topic = notif_topic;
-
+		int notification_payload_len = (int)strlen(notification_payload);
 		if(context->bridge->notification_topic){
-			// if(!context->bridge->initial_notification_done){
-			// 	// notification_payload = '3';
-			// 	// db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
-			// 	context->bridge->initial_notification_done = true;
-			// }
+			if(!context->bridge->initial_notification_done){
+				// notification_payload = '3';
+				// db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
+				context->bridge->initial_notification_done = true;
+				
+			}
 
 			// notification_payload = "12.5.56.6";
-			rc = will__set(context, notification_topic, strlen(notification_payload), notification_payload, qos, true, NULL);
+			rc = will__set(context, notification_topic, notification_payload_len, notification_payload, qos, true, NULL);
 			
 			if(rc != dimq_ERR_SUCCESS){
 				return rc;
@@ -453,12 +454,12 @@ int bridge__connect(struct dimq *context)
 			snprintf(notification_topic, notification_topic_len+1, "$SYS/broker/connection/%s/state", context->bridge->remote_clientid);
 
 			if(!context->bridge->initial_notification_done){
-				notification_payload = '0';
+				// notification_payload = '0';
 				db__messages_easy_queue(context, notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
 				context->bridge->initial_notification_done = true;
 			}
 
-			notification_payload = '0';
+			// notification_payload = '0';
 			rc = will__set(context, notification_topic, 1, &notification_payload, qos, true, NULL);
 			if(rc != dimq_ERR_SUCCESS){
 				dimq__free(notification_topic);
@@ -555,12 +556,13 @@ int bridge__on_connect(struct dimq *context)
 		strcpy(notif_topic,"brokers/");
 		strcat(notif_topic,notification_payload);
 		notification_topic = notif_topic;
-		
+		int notification_payload_len = strlen(notification_payload);
 		if(context->bridge->notification_topic){
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
-						notification_topic, strlen(notification_payload), notification_payload, qos, retain, 0, NULL, NULL, 0)){
+						notification_topic, notification_payload_len, notification_payload, qos, retain, 0, NULL, NULL, 0)){
 
+					
 					return 1;
 				}
 			}
@@ -571,7 +573,7 @@ int bridge__on_connect(struct dimq *context)
 			if(!notification_topic) return dimq_ERR_NOMEM;
 
 			snprintf(notification_topic, notification_topic_len+1, "$SYS/broker/connection/%s/state", context->bridge->remote_clientid);
-			notification_payload = "hello!";
+			
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
 						notification_topic, 1, &notification_payload, qos, retain, 0, NULL, NULL, 0)){
