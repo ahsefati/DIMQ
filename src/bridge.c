@@ -154,6 +154,7 @@ int bridge__new(struct dimq__bridge *bridge)
 int bridge__connect_step1(struct dimq *context)
 {
 	int rc;
+	char notif_topic[100];
 	char *notification_topic;
 	size_t notification_topic_len;
 	uint8_t notification_payload;
@@ -214,7 +215,9 @@ int bridge__connect_step1(struct dimq *context)
 		}else{
 			qos = 1;
 		}
+
 		if(context->bridge->notification_topic){
+
 			if(!context->bridge->initial_notification_done){
 				notification_payload = '0';
 				db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
@@ -225,6 +228,9 @@ int bridge__connect_step1(struct dimq *context)
 			if(rc != dimq_ERR_SUCCESS){
 				return rc;
 			}
+
+
+
 		}else{
 			notification_topic_len = strlen(context->bridge->remote_clientid)+strlen("$SYS/broker/connection//state");
 			notification_topic = dimq__malloc(sizeof(char)*(notification_topic_len+1));
@@ -346,9 +352,10 @@ int bridge__connect(struct dimq *context)
 {
 	int rc, rc2;
 	int i;
-	char *notification_topic = NULL;
+	char notif_topic[100];
+	char *notification_topic;
 	size_t notification_topic_len;
-	uint8_t notification_payload;
+	char* notification_payload;
 	uint8_t qos;
 
 	if(!context || !context->bridge) return dimq_ERR_INVAL;
@@ -403,15 +410,38 @@ int bridge__connect(struct dimq *context)
 		}else{
 			qos = 1;
 		}
-		if(context->bridge->notification_topic){
-			if(!context->bridge->initial_notification_done){
-				notification_payload = '0';
-				db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
-				context->bridge->initial_notification_done = true;
+		// Sending IP address of me!
+		// I will send it to broker/# topic for furthur usage
+		struct ifaddrs * ifAddrStruct=NULL;
+    	struct ifaddrs * ifa=NULL;
+    	void * tmpAddrPtr=NULL;
+    	getifaddrs(&ifAddrStruct);
+		char addressBuffer[INET_ADDRSTRLEN + 20];
+		for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+			if (ifa->ifa_addr->sa_family == AF_INET && strstr(ifa->ifa_name, "en")) {
+				tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+				inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
 			}
+    	}
+		
+		printf("%s\n",addressBuffer);
+		strcat(addressBuffer,"/off");
+		notification_payload = addressBuffer;
 
-			notification_payload = '0';
-			rc = will__set(context, context->bridge->notification_topic, 1, &notification_payload, qos, true, NULL);
+		strcpy(notif_topic,"brokers/");
+		strcat(notif_topic,notification_payload);
+		notification_topic = notif_topic;
+
+		if(context->bridge->notification_topic){
+			// if(!context->bridge->initial_notification_done){
+			// 	// notification_payload = '3';
+			// 	// db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
+			// 	context->bridge->initial_notification_done = true;
+			// }
+
+			// notification_payload = "12.5.56.6";
+			rc = will__set(context, notification_topic, strlen(notification_payload), notification_payload, qos, true, NULL);
+			
 			if(rc != dimq_ERR_SUCCESS){
 				return rc;
 			}
@@ -505,7 +535,7 @@ int bridge__on_connect(struct dimq *context)
 		if(!context->retain_available){
 			retain = false;
 		}
-		// Getting IP address of me!
+		// Sending IP address of me!
 		// I will send it to broker/# topic for furthur usage
 		struct ifaddrs * ifAddrStruct=NULL;
     	struct ifaddrs * ifa=NULL;
@@ -534,7 +564,7 @@ int bridge__on_connect(struct dimq *context)
 					return 1;
 				}
 			}
-			db__messages_easy_queue(context, context->bridge->notification_topic, qos, 10, notification_payload, 10, 0, NULL);
+			// db__messages_easy_queue(context, context->bridge->notification_topic, qos, 10, notification_payload, 10, 0, NULL);
 		}else{
 			notification_topic_len = strlen(context->bridge->remote_clientid)+strlen("$SYS/broker/connection//state");
 			notification_topic = dimq__malloc(sizeof(char)*(notification_topic_len+1));
