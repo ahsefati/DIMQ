@@ -52,6 +52,12 @@ Contributors:
 #include "util_dimq.h"
 #include "will_dimq.h"
 
+// For IP Inteligence
+#include <sys/types.h>
+#include <ifaddrs.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+
 #ifdef WITH_BRIDGE
 
 static void bridge__backoff_step(struct dimq *context);
@@ -482,6 +488,7 @@ int bridge__connect(struct dimq *context)
 int bridge__on_connect(struct dimq *context)
 {
 	int i;
+	char notif_topic[100];
 	char *notification_topic;
 	size_t notification_topic_len;
 	char *notification_payload;
@@ -498,12 +505,31 @@ int bridge__on_connect(struct dimq *context)
 		if(!context->retain_available){
 			retain = false;
 		}
-		notification_payload = "okkkkkkkkkkko";
-		notification_topic = "brokers/ips/me";
+		// Getting IP address of me!
+		// I will send it to broker/# topic for furthur usage
+		struct ifaddrs * ifAddrStruct=NULL;
+    	struct ifaddrs * ifa=NULL;
+    	void * tmpAddrPtr=NULL;
+    	getifaddrs(&ifAddrStruct);
+		char addressBuffer[INET_ADDRSTRLEN];
+		for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
+			if (ifa->ifa_addr->sa_family == AF_INET && strstr(ifa->ifa_name, "en")) {
+				tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
+				inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
+			}
+    	}
+		
+		printf("%s\n",addressBuffer);
+		notification_payload = addressBuffer;
+
+		strcpy(notif_topic,"brokers/");
+		strcat(notif_topic,notification_payload);
+		notification_topic = notif_topic;
+		
 		if(context->bridge->notification_topic){
 			if(!context->bridge->notifications_local_only){
 				if(send__real_publish(context, dimq__mid_generate(context),
-						notification_topic, 13, notification_payload, qos, retain, 0, NULL, NULL, 0)){
+						notification_topic, strlen(notification_payload), notification_payload, qos, retain, 0, NULL, NULL, 0)){
 
 					return 1;
 				}
