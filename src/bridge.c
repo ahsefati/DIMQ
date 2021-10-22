@@ -14,6 +14,7 @@ SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
+   Amirhossein Sefati - Intillegence added.
 */
 
 #include "config.h"
@@ -416,7 +417,7 @@ int bridge__connect(struct dimq *context)
     	struct ifaddrs * ifa=NULL;
     	void * tmpAddrPtr=NULL;
     	getifaddrs(&ifAddrStruct);
-		char addressBuffer[INET_ADDRSTRLEN + 20];
+		char addressBuffer[INET_ADDRSTRLEN + 30];
 		for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
 			if (ifa->ifa_addr->sa_family == AF_INET && strstr(ifa->ifa_name, "en")) {
 				tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
@@ -427,17 +428,15 @@ int bridge__connect(struct dimq *context)
 		printf("%s\n",addressBuffer);
 		strcat(addressBuffer,"/off");
 		notification_payload = addressBuffer;
-
 		strcpy(notif_topic,"brokers/");
 		strcat(notif_topic,notification_payload);
 		notification_topic = notif_topic;
 		int notification_payload_len = (int)strlen(notification_payload);
 		if(context->bridge->notification_topic){
 			if(!context->bridge->initial_notification_done){
-				// notification_payload = '3';
-				// db__messages_easy_queue(context, context->bridge->notification_topic, qos, 1, &notification_payload, 1, 0, NULL);
+				// notification_payload = "broker";
+				// db__messages_easy_queue(context, notification_topic, qos, 1, notification_payload, 1, 0, NULL);
 				context->bridge->initial_notification_done = true;
-				
 			}
 
 			// notification_payload = "12.5.56.6";
@@ -542,7 +541,7 @@ int bridge__on_connect(struct dimq *context)
     	struct ifaddrs * ifa=NULL;
     	void * tmpAddrPtr=NULL;
     	getifaddrs(&ifAddrStruct);
-		char addressBuffer[INET_ADDRSTRLEN];
+		char addressBuffer[INET_ADDRSTRLEN + 30];
 		for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
 			if (ifa->ifa_addr->sa_family == AF_INET && strstr(ifa->ifa_name, "en")) {
 				tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
@@ -551,6 +550,10 @@ int bridge__on_connect(struct dimq *context)
     	}
 		
 		printf("%s\n",addressBuffer);
+		// strcat(addressBuffer,":");
+		// char port[10];
+		// sprintf(port, "%u", context->bridge->addresses[0].port);
+		// printf("%s\n", port);
 		notification_payload = addressBuffer;
 
 		strcpy(notif_topic,"brokers/");
