@@ -25,6 +25,7 @@ then
   echo "Copying example config to $COMMON/dimq_example.conf"
   echo "You can create a custom config by creating a file called $CUSTOM_CONFIG"
   cp $SNAP/dimq.conf $COMMON/dimq_example.conf
+  cp $SNAP/addresses.conf $COMMON/addresses_example.conf
 fi
 
 

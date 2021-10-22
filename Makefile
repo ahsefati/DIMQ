@@ -36,6 +36,7 @@ DISTFILES= \
 	libdimq.pc.in \
 	libdimqpp.pc.in \
 	dimq.conf \
+	addresses.conf\
 	NOTICE.md \
 	pskfile.example \
 	pwfile.example \
@@ -94,6 +95,7 @@ ifeq ($(WITH_DOCS),yes)
 endif
 	$(INSTALL) -d "${DESTDIR}/etc/dimq"
 	$(INSTALL) -m 644 dimq.conf "${DESTDIR}/etc/dimq/dimq.conf.example"
+	$(INSTALL) -m 644 addresses.conf "${DESTDIR}/etc/dimq/addresses.conf"
 	$(INSTALL) -m 644 aclfile.example "${DESTDIR}/etc/dimq/aclfile.example"
 	$(INSTALL) -m 644 pwfile.example "${DESTDIR}/etc/dimq/pwfile.example"
 	$(INSTALL) -m 644 pskfile.example "${DESTDIR}/etc/dimq/pskfile.example"

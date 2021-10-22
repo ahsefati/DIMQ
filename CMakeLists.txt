@@ -145,7 +145,7 @@ endif (DOCUMENTATION)
 # ========================================
 
 if (WITH_BROKER)
-	install(FILES dimq.conf aclfile.example pskfile.example pwfile.example DESTINATION "${CMAKE_INSTALL_SYSCONFDIR}/dimq")
+	install(FILES dimq.conf addresses.conf aclfile.example pskfile.example pwfile.example DESTINATION "${CMAKE_INSTALL_SYSCONFDIR}/dimq")
 endif (WITH_BROKER)
 
 # ========================================
