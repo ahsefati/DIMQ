@@ -1,10 +1,9 @@
-Eclipse dimq
+DimQ 
 =================
 
-dimq is an open source implementation of a server for version 5.0, 3.1.1,
-and 3.1 of the MQTT protocol. It also includes a C and C++ client library, and
-the `dimq_pub` and `dimq_sub` utilities for publishing and
-subscribing.
+DimQ is an open source fork of mosquitto broker for use in IoT applications and also every other messaging apps.
+DimQ stands for Distributed Intelligent MQTT. It is built above MQTT protocol which use Pub/Sub method for its communicatins. Current implementation supports version 5.0, 3.1.1 and 3.1 of the MQTT protocol. It also includes a C, C++, python and reacti native client open-source codes to be used in your applications.
+Also, there is a C library for use as command line which called `dimq_pub` and `dimq_sub` for publishing and subscribing.
 
 ## Links
 
@@ -14,18 +13,11 @@ See the following links for more information on MQTT:
 - MQTT v3.1.1 standard: <https://docs.oasis-open.org/mqtt/mqtt/v3.1.1/mqtt-v3.1.1.html>
 - MQTT v5.0 standard: <https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html>
 
-dimq project information is available at the following locations:
-
-- Main homepage: <https://dimq.org/>
-- Find existing bugs or submit a new bug: <https://github.com/eclipse/dimq/issues>
-- Source code repository: <https://github.com/eclipse/dimq>
-
-There is also a public test server available at <https://test.dimq.org/>
+DimQ project information is available at the Instructions folder in this repository.
+There is also a public test server available at 74.208.35.55 (Yes I have a domain too but use IP) on the default port(1883). 
 
 ## Installing
 
-See <https://dimq.org/download/> for details on installing binaries for
-various platforms.
 
 ## Quick start
 
