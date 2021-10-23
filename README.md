@@ -21,12 +21,12 @@ There is also a public test server available at 74.208.35.55 on the default port
 ## Installing
 ### git clone https://github.com/ahsefati/dimq.git
    ### Installing dependencies
-   #### apt-get install docbook-xsl
-   #### apt-get install xsltproc
-   #### cd cjson
-   #### sudo make install
-   #### cd ..
-   ### sudo make install
+   #### `apt-get install docbook-xsl`
+   #### `apt-get install xsltproc`
+   #### `cd cjson`
+   #### `sudo make install`
+   #### `cd ..`
+   ### `sudo make install`
    
 
 ## Quick start
@@ -40,11 +40,11 @@ If you installed DimQ with previous steps, you can now run it using following co
 
 Then you can use `dimq_sub` to subscribe to a topic:
 
-### dimq_sub -h ip(ex. 74.208.35.55) -p port(1883 if not mentioned) -t 'test/topic'
+#### dimq_sub -h ip -p port -t 'test/topic'
 
-And to publish a message:
+And to publish a message use `dimq_pub`:
 
-### dimq_pub -h ip(ex. 74.208.35.55) -p port(1883 if not mentioned) -t 'test/topic' -m "Hello Distributed Intelligent World!"
+#### dimq_pub -h ip -p port -t 'test/topic' -m "Hello Distributed Intelligent World!"
 
 ## Documentation (to be completed)
 
