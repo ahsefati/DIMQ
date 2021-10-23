@@ -64,4 +64,7 @@ Equivalent options for enabling/disabling features are available when using the 
 
 ## Credits
 MQTT was written by Andy Stanford-Clark and Arlen Nipper (From IBM)
+
 Mosquitto was written by Roger Light
+
+Now, DimQ is available! Let's be part of open-world!
