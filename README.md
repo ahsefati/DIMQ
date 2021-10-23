@@ -14,10 +14,11 @@ See the following links for more information on MQTT:
 - MQTT v5.0 standard: <https://docs.oasis-open.org/mqtt/mqtt/v5.0/mqtt-v5.0.html>
 
 DimQ project information is available at the Instructions folder in this repository.
-There is also a public test server available at 74.208.35.55 (Yes I have a domain too but use IP) on the default port(1883). 
+There is also a public test server available at 74.208.35.55 on the default port(1883). It should work with any MQTT clients.
 
 ## Installing
-
+###git clone https://github.com/ahsefati/dimq.git
+###make install
 
 ## Quick start
 
