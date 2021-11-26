@@ -419,7 +419,7 @@ int bridge__connect(struct dimq *context)
     	getifaddrs(&ifAddrStruct);
 		char addressBuffer[INET_ADDRSTRLEN + 30];
 		for (ifa = ifAddrStruct; ifa != NULL; ifa = ifa->ifa_next) {
-			if (ifa->ifa_addr->sa_family == AF_INET && strstr(ifa->ifa_name, "en")) {
+			if (ifa->ifa_addr->sa_family == AF_INET && (strstr(ifa->ifa_name, "en") || strstr(ifa->ifa_name, "wlo") )) {
 				tmpAddrPtr=&((struct sockaddr_in *)ifa->ifa_addr)->sin_addr;
 				inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
 			}
