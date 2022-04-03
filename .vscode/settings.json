@@ -1,5 +1,6 @@
 {
     "files.associations": {
         "cstring": "c"
-    }
+    },
+    "C_Cpp.dimInactiveRegions": false
 }
