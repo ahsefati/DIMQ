@@ -14,6 +14,7 @@ SPDX-License-Identifier: EPL-2.0 OR BSD-3-Clause
 
 Contributors:
    Roger Light - initial implementation and documentation.
+   Amirhossein Sefati - Add some functionalities required for DIMQ.
 */
 
 #include "config.h"
