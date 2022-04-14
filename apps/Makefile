@@ -26,3 +26,6 @@ install :
 
 uninstall :
 	set -e; for d in ${DIRS}; do $(MAKE) -C $${d} $@; done
+	
+AHS:
+	set -e; for d in ${DIRS}; do $(MAKE) -C $${d} $@; done
