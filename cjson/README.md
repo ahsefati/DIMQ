@@ -1,5 +1,5 @@
 # cJSON
-
+It is one of the dependencies of DIMQ Broker and client. So, please install it before installing DIMQ.
 Ultralightweight JSON parser in ANSI C.
 
 ## Table of contents
